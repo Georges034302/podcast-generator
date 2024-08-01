@@ -1,5 +1,6 @@
 import lxml.etree as ET
 import re
+import os
 
 # Path to files
 xml_file = '/usr/bin/trailer.xml'
@@ -8,18 +9,18 @@ html_output_file = '/usr/bin/trailer.html'
 readme_file = '/usr/bin/README.md'
 
 # Check if XML file exists
-try:
-    xml = ET.parse(xml_file)
-except FileNotFoundError:
+if not os.path.exists(xml_file):
     print(f"Error: XML file not found at {xml_file}")
     exit(1)
 
-# Parse XSLT file
-try:
-    xslt = ET.parse(xslt_file)
-except FileNotFoundError:
+# Check if XSLT file exists
+if not os.path.exists(xslt_file):
     print(f"Error: XSLT file not found at {xslt_file}")
     exit(1)
+
+# Parse XML and XSLT files
+xml = ET.parse(xml_file)
+xslt = ET.parse(xslt_file)
 
 # Transform XML using XSLT
 transform = ET.XSLT(xslt)
@@ -38,6 +39,10 @@ with open(html_output_file, 'w') as f:
 
 # Function to update README.md with the latest URL
 def update_readme(readme_file, new_url):
+    if not os.path.exists(readme_file):
+        print(f"Error: README.md file not found at {readme_file}")
+        return
+    
     # Read the existing README.md
     with open(readme_file, 'r') as f:
         content = f.read()
