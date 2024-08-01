@@ -3,8 +3,9 @@ import re
 import os
 
 # Path to files
+current_directory = os.path.dirname(os.path.abspath(__file__))
 xml_file = '/github/workspace/trailer.xml'
-xslt_file = '/github/workspace/trailer.xsl'
+xslt_file = os.path.join(current_directory, 'trailer.xsl')
 html_output_file = '/github/workspace/trailer.html'
 readme_file = '/github/workspace/README.md'
 
