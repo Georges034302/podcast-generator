@@ -10,34 +10,56 @@ git config --global --add safe.directory /github/workspace
 # Ensure the latest files from the repository
 echo "Cloning repository to fetch the latest trailer.yaml..."
 rm -rf /tmp/trailer-viewer
-git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Georges034302/trailer-viewer.git /tmp/trailer-viewer
+git clone "https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/trailer-viewer.git" /tmp/trailer-viewer
 
-# Copy updated files from /tmp to the working directory
-echo "Copying updated files..."
-cp /tmp/trailer-viewer/trailer.yaml /usr/bin/trailer.yaml
-cp /tmp/trailer-viewer/README.md /usr/bin/README.md
+# Debug: Check if files are cloned properly
+echo "Debug: Checking /tmp/trailer-viewer contents:"
+ls -l /tmp/trailer-viewer/
 
-# Debug: Check if files are copied correctly
-echo "Debug: Checking /usr/bin contents:"
-ls -l /usr/bin/
+# Ensure files exist before copying
+if [ -f /tmp/trailer-viewer/trailer.yaml ]; then
+    echo "Copying trailer.yaml..."
+    cp /tmp/trailer-viewer/trailer.yaml /usr/bin/trailer.yaml
+else
+    echo "Error: trailer.yaml not found in /tmp/trailer-viewer."
+    exit 1
+fi
 
-# Run trailer.py to generate trailer.xml
+if [ -f /tmp/trailer-viewer/README.md ]; then
+    echo "Copying README.md..."
+    cp /tmp/trailer-viewer/README.md /usr/bin/README.md
+else
+    echo "Error: README.md not found in /tmp/trailer-viewer."
+    exit 1
+fi
+
 echo "Running trailer.py..."
 python3 /usr/bin/trailer.py
 
-# Check if trailer.xml is generated
-echo "Debug: Checking /usr/bin for trailer.xml:"
-ls -l /usr/bin/trailer.xml
+# Debug: Check if trailer.xml is generated
+if [ -f /usr/bin/trailer.xml ]; then
+    echo "trailer.xml found."
+else
+    echo "Error: trailer.xml not found."
+    exit 1
+fi
 
-# Run xsltransformer.py to generate HTML
 echo "Running xsltransformer.py..."
 python3 /usr/bin/xsltransformer.py
 
-# Check if trailer.html is generated
-echo "Debug: Checking /usr/bin for trailer.html:"
-ls -l /usr/bin/trailer.html
+# Debug: Check if trailer.html is generated
+if [ -f /usr/bin/trailer.html ]; then
+    echo "trailer.html found."
+else
+    echo "Error: trailer.html not found."
+    exit 1
+fi
 
 # Commit and push changes
+echo "Configuring Git..."
+git config --global user.name "${GITHUB_ACTOR}"
+git config --global user.email "${INPUT_EMAIL}"
+
 echo "Committing and pushing changes..."
 git add -A
 git commit -m "Update View"
