@@ -8,6 +8,10 @@ git clone https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/traile
 # Change directory to the cloned repo
 cd /tmp/trailer-viewer
 
+# List files to debug
+echo "Files in /tmp/trailer-viewer:"
+ls -al
+
 # Run trailer.py to generate trailer.xml
 python3 /usr/bin/trailer.py
 
