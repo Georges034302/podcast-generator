@@ -34,13 +34,12 @@ html_str = html_str.replace('<a href="{view/trailers/link}">Visit Trailer Viewer
 with open(html_output_file, 'w') as f:
     f.write(html_str)
 
-# Debug: Check if README.md exists
-if not os.path.isfile(readme_file):
-    raise FileNotFoundError(f"README.md file not found at {readme_file}")
-
 # Function to update README.md with the latest URL
 def update_readme(readme_file, new_url):
     # Read the existing README.md
+    if not os.path.isfile(readme_file):
+        raise FileNotFoundError(f"README.md file not found at {readme_file}")
+        
     with open(readme_file, 'r') as f:
         content = f.read()
 

@@ -16,7 +16,7 @@ ls -al
 python3 /usr/bin/trailer.py
 
 # Check if trailer.xml was generated
-if [ ! -f /tmp/trailer-viewer/trailer.xml ]; then
+if [ ! -f trailer.xml ]; then
   echo "Error: trailer.xml not found."
   exit 1
 fi
@@ -25,14 +25,14 @@ fi
 python3 /usr/bin/xsltransformer.py
 
 # Check if trailer.html was generated
-if [ ! -f /tmp/trailer-viewer/trailer.html ]; then
+if [ ! -f trailer.html ]; then
   echo "Error: trailer.html not found."
   exit 1
 fi
 
 # Move the generated files to the GitHub workspace
-mv /tmp/trailer-viewer/trailer.html /github/workspace/
-# No need to move README.md, just update it in place
+mv trailer.html /github/workspace/
+mv README.md /github/workspace/
 
 # Configure Git
 git config --global user.name "${GITHUB_ACTOR}"
