@@ -17,6 +17,9 @@ python3 /usr/bin/trailer.py
 echo "Running xsltransformer.py..."
 python3 /usr/bin/xsltransformer.py
 
+# Ensure directory for the updated files
+mkdir -p $REPO_DIR
+
 # Move the updated README.md and HTML file to the repository directory
 echo "Moving updated files..."
 mv /tmp/trailer-viewer/trailer.html $REPO_DIR/trailer.html
@@ -33,6 +36,6 @@ echo "Updating repository..."
 cd $REPO_DIR
 git add -A
 git commit -m "Update trailer HTML and README.md"
-git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Georges034302/trailer-viewer.git
+git push https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/trailer-viewer.git
 
 echo "==================="
