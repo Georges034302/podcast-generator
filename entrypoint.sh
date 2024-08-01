@@ -23,9 +23,10 @@ python3 /usr/bin/trailer.py
 echo "Running xsltransformer.py..."
 python3 /usr/bin/xsltransformer.py
 
-# Debug statements
-echo "Checking files..."
+echo "Debug: Checking /tmp/trailer-viewer contents:"
 ls -l /tmp/trailer-viewer/
+
+echo "Debug: Checking /usr/bin contents:"
 ls -l /usr/bin/
 
 # Commit and push changes
