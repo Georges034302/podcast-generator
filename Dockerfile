@@ -6,6 +6,8 @@ RUN pip3 install PyYAML
 
 COPY trailer.py /usr/bin/trailer.py
 
+COPY xsltransformer.py /usr/bin/xsltransformer.py
+
 COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
