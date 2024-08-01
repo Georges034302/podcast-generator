@@ -3,7 +3,7 @@ import re
 import os
 
 # Define paths
-xml_file = '/tmp/trailer-viewer/trailer.xml'  # Path where trailer.xml is expected
+xml_file = '/tmp/trailer-viewer/trailer.xml'  # Path to the generated XML
 xslt_file = '/usr/bin/trailer.xsl'
 html_output_file = '/tmp/trailer-viewer/trailer.html'  # Path to save the HTML output
 readme_file = '/tmp/trailer-viewer/README.md'  # Path to the README.md file
