@@ -2,7 +2,7 @@ import lxml.etree as ET
 import re
 
 # Define file paths
-xml_file = '/tmp/trailer-viewer/trailer.xml'
+xml_file = '/tmp/trailer-viewer/trailer.xml'  # Adjusted path
 xslt_file = '/usr/bin/trailer.xsl'
 html_output_file = '/tmp/trailer-viewer/trailer.html'
 readme_file = '/tmp/trailer-viewer/README.md'
