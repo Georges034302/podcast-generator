@@ -5,4 +5,4 @@ This Generator repo
 * Runs trailer.py to transform YAML to XML
 * Runs entrypoint.sh to initiate and push to the trailer-viewer repo
 
-``The Generator detects new commits and automatically deploy the changes using GitHub actions``
+``The Generator detects new commits in trailer-viewer repo and automatically deploy the changes using GitHub actions``
