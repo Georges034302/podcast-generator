@@ -17,19 +17,28 @@ echo "Copying updated files..."
 cp /tmp/trailer-viewer/trailer.yaml /usr/bin/trailer.yaml
 cp /tmp/trailer-viewer/README.md /usr/bin/README.md
 
-echo "Running trailer.py..."
-python3 /usr/bin/trailer.py
-
-echo "Running xsltransformer.py..."
-python3 /usr/bin/xsltransformer.py
-
-echo "Debug: Checking /tmp/trailer-viewer contents:"
-ls -l /tmp/trailer-viewer/
-
+# Debug: Check if files are copied correctly
 echo "Debug: Checking /usr/bin contents:"
 ls -l /usr/bin/
 
+# Run trailer.py to generate trailer.xml
+echo "Running trailer.py..."
+python3 /usr/bin/trailer.py
+
+# Check if trailer.xml is generated
+echo "Debug: Checking /usr/bin for trailer.xml:"
+ls -l /usr/bin/trailer.xml
+
+# Run xsltransformer.py to generate HTML
+echo "Running xsltransformer.py..."
+python3 /usr/bin/xsltransformer.py
+
+# Check if trailer.html is generated
+echo "Debug: Checking /usr/bin for trailer.html:"
+ls -l /usr/bin/trailer.html
+
 # Commit and push changes
+echo "Committing and pushing changes..."
 git add -A
 git commit -m "Update View"
 git push --set-upstream origin main
