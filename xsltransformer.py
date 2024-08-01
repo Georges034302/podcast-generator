@@ -1,21 +1,16 @@
 import lxml.etree as ET
 import re
-import os
 
-# Paths for the files
-repo_path = '/tmp/trailer-viewer'
-xml_file = os.path.join(repo_path, 'trailer.xml')
+# Define file paths
+xml_file = '/tmp/trailer-viewer/trailer.xml'
 xslt_file = '/usr/bin/trailer.xsl'
-html_output_file = os.path.join(repo_path, 'trailer.html')
-readme_file = os.path.join(repo_path, 'README.md')
+html_output_file = '/tmp/trailer-viewer/trailer.html'
+readme_file = '/tmp/trailer-viewer/README.md'
 
-# Ensure the XML file is present
+# Check if XML file exists
+import os
 if not os.path.isfile(xml_file):
     raise FileNotFoundError(f"XML file not found at {xml_file}")
-
-# Check if XSL file exists
-if not os.path.isfile(xslt_file):
-    raise FileNotFoundError(f"XSL file not found at {xslt_file}")
 
 # Parse XML and XSLT files
 xml = ET.parse(xml_file)
@@ -36,7 +31,6 @@ full_url = f"{base_url.rstrip('/')}/trailer.html"
 html_str = html_str.replace('<a href="{view/trailers/link}">Visit Trailer Viewer</a>', f'<a href="{full_url}">Visit Trailer Viewer</a>')
 
 # Write the updated HTML content to a file
-os.makedirs(os.path.dirname(html_output_file), exist_ok=True)
 with open(html_output_file, 'w') as f:
     f.write(html_str)
 

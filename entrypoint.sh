@@ -7,6 +7,14 @@ REPO_DIR="/tmp/trailer-viewer"
 if [ ! -d "$REPO_DIR" ]; then
     echo "Cloning repository to fetch XML file..."
     git clone https://github.com/Georges034302/trailer-viewer.git $REPO_DIR
+else
+    echo "Repository already cloned."
+fi
+
+# Ensure the XML file exists
+if [ ! -f "$REPO_DIR/trailer.xml" ]; then
+    echo "XML file not found in the cloned repository. Exiting."
+    exit 1
 fi
 
 # Run trailer.py to generate the HTML file
@@ -36,6 +44,6 @@ echo "Updating repository..."
 cd $REPO_DIR
 git add -A
 git commit -m "Update trailer HTML and README.md"
-git push https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/trailer-viewer.git
+git push https://x-access-token:$GITHUB_TOKEN@github.com/Georges034302/trailer-viewer.git
 
 echo "==================="
