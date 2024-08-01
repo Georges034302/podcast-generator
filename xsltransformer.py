@@ -3,10 +3,10 @@ import re
 import os
 
 # Path to files
-xml_file = '/workspace/trailer.xml'
-xslt_file = '/workspace/trailer.xsl'
-html_output_file = '/workspace/trailer.html'
-readme_file = '/workspace/README.md'
+xml_file = '/github/workspace/trailer.xml'
+xslt_file = '/github/workspace/trailer.xsl'
+html_output_file = '/github/workspace/trailer.html'
+readme_file = '/github/workspace/README.md'
 
 # Check if XML file exists
 if not os.path.exists(xml_file):
