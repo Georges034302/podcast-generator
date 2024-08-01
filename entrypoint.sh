@@ -55,12 +55,19 @@ else
     exit 1
 fi
 
+# Move generated files back to the cloned repository directory
+echo "Moving generated files to the cloned repository..."
+mv /usr/bin/trailer.xml /tmp/trailer-viewer/
+mv /usr/bin/trailer.html /tmp/trailer-viewer/
+mv /usr/bin/README.md /tmp/trailer-viewer/
+
 # Commit and push changes
 echo "Configuring Git..."
 git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${INPUT_EMAIL}"
 
 echo "Committing and pushing changes..."
+cd /tmp/trailer-viewer
 git add -A
 git commit -m "Update View"
 git push --set-upstream origin main
