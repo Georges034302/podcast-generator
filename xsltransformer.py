@@ -1,33 +1,29 @@
 import lxml.etree as ET
 import re
+import os
 
-# Define file paths
-xml_file = '/tmp/trailer-viewer/trailer.xml'  # Adjusted path
+# Define paths
+xml_file = '/tmp/trailer-viewer/trailer.xml'  # Path where trailer.xml is expected
 xslt_file = '/usr/bin/trailer.xsl'
-html_output_file = '/tmp/trailer-viewer/trailer.html'
-readme_file = '/tmp/trailer-viewer/README.md'
+html_output_file = '/tmp/trailer-viewer/trailer.html'  # Path to save the HTML output
+readme_file = '/tmp/trailer-viewer/README.md'  # Path to the README.md file
 
 # Check if XML file exists
-import os
 if not os.path.isfile(xml_file):
     raise FileNotFoundError(f"XML file not found at {xml_file}")
 
 # Parse XML and XSLT files
 xml = ET.parse(xml_file)
 xslt = ET.parse(xslt_file)
-
-# Extract the base URL from the XML file
-base_url = xml.findtext('trailers/link')
+transform = ET.XSLT(xslt)
 
 # Transform XML using XSLT
-transform = ET.XSLT(xslt)
 html = transform(xml)
 
-# Convert the HTML to string and append the base URL to links
+# Convert the HTML to string and update links
 html_str = ET.tostring(html, pretty_print=True, method='html').decode('utf-8')
-full_url = f"{base_url.rstrip('/')}/trailer.html"
-
-# Update the HTML content with the full URL
+base_url = xml.findtext('trailers/link').rstrip('/')
+full_url = f"{base_url}/trailer.html"
 html_str = html_str.replace('<a href="{view/trailers/link}">Visit Trailer Viewer</a>', f'<a href="{full_url}">Visit Trailer Viewer</a>')
 
 # Write the updated HTML content to a file

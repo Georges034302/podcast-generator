@@ -13,23 +13,25 @@ else
     echo "Repository already cloned."
 fi
 
-# Check if the XML file exists
-if [ ! -f "$REPO_DIR/trailer.xml" ]; then
-    echo "XML file not found in the cloned repository. Exiting."
-    ls -l $REPO_DIR # List files to debug
+# Check if the YAML file exists
+if [ ! -f "$REPO_DIR/trailer.yaml" ]; then
+    echo "YAML file not found in the cloned repository. Exiting."
     exit 1
 fi
 
-# Run trailer.py to generate the HTML file
+# Run trailer.py to generate the XML file
 echo "Running trailer.py..."
 python3 /usr/bin/trailer.py
+
+# Check if the XML file exists
+if [ ! -f "$REPO_DIR/trailer.xml" ]; then
+    echo "XML file not found. Exiting."
+    exit 1
+fi
 
 # Run xsltransformer.py to transform XML and update README.md
 echo "Running xsltransformer.py..."
 python3 /usr/bin/xsltransformer.py
-
-# Ensure directory for the updated files
-mkdir -p $REPO_DIR
 
 # Move the updated README.md and HTML file to the repository directory
 echo "Moving updated files..."
