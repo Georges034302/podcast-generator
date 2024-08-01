@@ -5,14 +5,30 @@ echo "==================="
 # Clone the repository
 git clone https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/trailer-viewer.git /tmp/trailer-viewer
 
+# Change directory to the cloned repo
+cd /tmp/trailer-viewer
+
 # Run trailer.py to generate trailer.xml
 python3 /usr/bin/trailer.py
+
+# Check if trailer.xml was generated
+if [ ! -f /tmp/trailer-viewer/trailer.xml ]; then
+  echo "Error: trailer.xml not found."
+  exit 1
+fi
 
 # Run xsltransformer.py to generate trailer.html
 python3 /usr/bin/xsltransformer.py
 
-# Move the generated files to the repository
-mv /tmp/trailer-viewer/trailer.html /tmp/trailer-viewer/README.md /github/workspace/
+# Check if trailer.html was generated
+if [ ! -f /tmp/trailer-viewer/trailer.html ]; then
+  echo "Error: trailer.html not found."
+  exit 1
+fi
+
+# Move the generated files to the GitHub workspace
+mv /tmp/trailer-viewer/trailer.html /github/workspace/
+mv /tmp/trailer-viewer/README.md /github/workspace/
 
 # Configure Git
 git config --global user.name "${GITHUB_ACTOR}"
