@@ -1,8 +1,8 @@
 import lxml.etree as ET
-import os
 import re
+import os
 
-# Define file paths
+# Define paths
 xml_file = '/tmp/trailer-viewer/trailer.xml'
 xslt_file = '/usr/bin/trailer.xsl'
 html_output_file = '/tmp/trailer-viewer/trailer.html'
@@ -13,18 +13,28 @@ if not os.path.isfile(xml_file):
     raise FileNotFoundError(f"XML file not found at {xml_file}")
 
 # Parse XML and XSLT files
-xml = ET.parse(xml_file)
-xslt = ET.parse(xslt_file)
+try:
+    xml = ET.parse(xml_file)
+except ET.XMLSyntaxError as e:
+    raise RuntimeError(f"Error parsing XML file: {e}")
 
-# Extract the base URL from the XML file
-base_url = xml.findtext('trailers/link')
+try:
+    xslt = ET.parse(xslt_file)
+except ET.XMLSyntaxError as e:
+    raise RuntimeError(f"Error parsing XSLT file: {e}")
 
 # Transform XML using XSLT
-transform = ET.XSLT(xslt)
-html = transform(xml)
+try:
+    transform = ET.XSLT(xslt)
+    html = transform(xml)
+except Exception as e:
+    raise RuntimeError(f"Error during XSLT transformation: {e}")
 
 # Convert the HTML to string and append the base URL to links
 html_str = ET.tostring(html, pretty_print=True, method='html').decode('utf-8')
+
+# Extract the base URL from the XML file
+base_url = xml.findtext('trailers/link')
 full_url = f"{base_url.rstrip('/')}/trailer.html"
 
 # Update the HTML content with the full URL
@@ -36,10 +46,11 @@ with open(html_output_file, 'w') as f:
 
 # Function to update README.md with the latest URL
 def update_readme(readme_file, new_url):
-    # Read the existing README.md
+    # Ensure README.md exists
     if not os.path.isfile(readme_file):
-        raise FileNotFoundError(f"README.md file not found at {readme_file}")
-        
+        raise FileNotFoundError(f"README.md not found at {readme_file}")
+
+    # Read the existing README.md
     with open(readme_file, 'r') as f:
         content = f.read()
 
