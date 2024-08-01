@@ -1,19 +1,21 @@
 import lxml.etree as ET
 import re
 import os
-import subprocess
 
 # Paths for the files
 repo_path = '/tmp/trailer-viewer'
 xml_file = os.path.join(repo_path, 'trailer.xml')
 xslt_file = '/usr/bin/trailer.xsl'
-html_output_file = '/tmp/trailer-viewer/trailer.html'
+html_output_file = os.path.join(repo_path, 'trailer.html')
 readme_file = os.path.join(repo_path, 'README.md')
 
-# Clone the repository if not already cloned
-if not os.path.exists(repo_path):
-    print("Cloning repository to fetch XML file...")
-    subprocess.run(['git', 'clone', 'https://github.com/Georges034302/trailer-viewer.git', repo_path], check=True)
+# Ensure the XML file is present
+if not os.path.isfile(xml_file):
+    raise FileNotFoundError(f"XML file not found at {xml_file}")
+
+# Check if XSL file exists
+if not os.path.isfile(xslt_file):
+    raise FileNotFoundError(f"XSL file not found at {xslt_file}")
 
 # Parse XML and XSLT files
 xml = ET.parse(xml_file)

@@ -23,8 +23,8 @@ python3 /usr/bin/xsltransformer.py
 
 # Move the updated README.md and HTML file to the repository directory
 echo "Moving updated files..."
-mv /tmp/trailer-viewer/trailer.html /tmp/trailer-viewer/trailer.html
-mv /tmp/trailer-viewer/README.md /tmp/trailer-viewer/README.md
+mv /tmp/trailer-viewer/trailer.html $REPO_DIR/trailer.html
+mv /tmp/trailer-viewer/README.md $REPO_DIR/README.md
 
 # Commit and push changes to the repository
 echo "Updating repository..."
@@ -33,7 +33,7 @@ git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${INPUT_EMAIL}"
 git config --global --add safe.directory $REPO_DIR
 git add -A
-git commit -m "Update trailer viewer"
+git commit -m "Update trailer HTML and README.md"
 git push
 
 echo "==================="
