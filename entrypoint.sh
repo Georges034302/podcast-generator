@@ -16,7 +16,7 @@ git clone https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/traile
 echo "Copying updated files..."
 cp /tmp/trailer-viewer/trailer.yaml /github/workspace/trailer.yaml
 cp /tmp/trailer-viewer/README.md /github/workspace/README.md
-
+cp trailer.xsl /github/workspace/trailer.xsl
 echo "Running trailer.py..."
 python3 /usr/bin/trailer.py
 

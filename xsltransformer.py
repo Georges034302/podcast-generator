@@ -4,7 +4,7 @@ import os
 
 # Path to files
 xml_file = '/github/workspace/trailer.xml'
-xslt_file = 'trailer.xsl'
+xslt_file = '/github/workspace/trailer.xsl'
 html_output_file = '/github/workspace/trailer.html'
 readme_file = '/github/workspace/README.md'
 
