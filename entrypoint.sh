@@ -32,7 +32,7 @@ fi
 
 # Move the generated files to the GitHub workspace
 mv /tmp/trailer-viewer/trailer.html /github/workspace/
-mv /tmp/trailer-viewer/README.md /github/workspace/
+# No need to move README.md, just update it in place
 
 # Configure Git
 git config --global user.name "${GITHUB_ACTOR}"
