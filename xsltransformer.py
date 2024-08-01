@@ -1,5 +1,6 @@
 import lxml.etree as ET
 import os
+import re
 
 # Define file paths
 xml_file = '/tmp/trailer-viewer/trailer.xml'
