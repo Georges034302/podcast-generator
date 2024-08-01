@@ -2,10 +2,10 @@ import yaml
 import xml.etree.ElementTree as xml_tree
 
 # Path to YAML file
-yaml_file = '/usr/bin/trailer.yaml'
+yaml_file = '/workspace/trailer.yaml'
 
 # Path to output XML file
-xml_file = '/usr/bin/trailer.xml'
+xml_file = '/workspace/trailer.xml'
 
 # Load YAML data
 try:
