@@ -2,10 +2,6 @@
 
 echo "==================="
 
-# Set environment variables
-echo "GITHUB_ACTOR: ${GITHUB_ACTOR}"
-echo "INPUT_EMAIL: ${INPUT_EMAIL}"
-
 # Clone the repository if not already cloned
 REPO_DIR="/tmp/trailer-viewer"
 if [ ! -d "$REPO_DIR" ]; then
@@ -26,14 +22,17 @@ echo "Moving updated files..."
 mv /tmp/trailer-viewer/trailer.html $REPO_DIR/trailer.html
 mv /tmp/trailer-viewer/README.md $REPO_DIR/README.md
 
-# Commit and push changes to the repository
-echo "Updating repository..."
-cd $REPO_DIR
+# Configure Git with GitHub Actions token
+echo "Configuring Git..."
 git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${INPUT_EMAIL}"
 git config --global --add safe.directory $REPO_DIR
+
+# Commit and push changes to the repository
+echo "Updating repository..."
+cd $REPO_DIR
 git add -A
 git commit -m "Update trailer HTML and README.md"
-git push
+git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Georges034302/trailer-viewer.git
 
 echo "==================="
