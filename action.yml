@@ -1,6 +1,6 @@
-name: 'Pdcast Generator'
+name: 'Trailer-Viewer Generator'
 author: George
-description: Docker Podcast Generator for GitHub Actions
+description: Docker Trailer-Viewer Generator for GitHub Actions
 runs:
   using: "docker"
   image: "Dockerfile"
