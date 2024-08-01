@@ -11,7 +11,7 @@ python3 /usr/bin/xsltransformer.py
 
 # Run xsltransformer.py with the path to trailer.xsl
 echo "Running xsltransformer.py..."
-python3 /usr/bin/xsltransformer.py --xslt-path /tmp/Georges034302/trailer-viewer-generator/trailer.xsl --input-xml /Georges034302/trailer-viewer-generator/trailer.xml --output-html /Georges034302/trailer-viewer-generator/trailer.html
+python3 /usr/bin/xsltransformer.py --xslt-path /usr/bin/trailer.xsl --input-xml /Georges034302/trailer-viewer-generator/trailer.xml --output-html /Georges034302/trailer-viewer-generator/trailer.html
 
 git add -A && git commit -m "Update View"
 git push --set-upstream origin main
