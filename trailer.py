@@ -4,7 +4,6 @@ import os
 
 # Path to YAML file
 yaml_file = '/usr/bin/trailer.yaml'
-
 # Path to output XML file
 xml_file = '/usr/bin/trailer.xml'
 

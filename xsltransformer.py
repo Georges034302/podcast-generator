@@ -23,16 +23,12 @@ try:
     xml = ET.parse(xml_file)
     xslt = ET.parse(xslt_file)
 except ET.XMLSyntaxError as e:
-    print(f"Error parsing XML or XSLT: {e}")
+    print(f"Error parsing XML/XSLT: {e}")
     exit(1)
 
 # Transform XML using XSLT
-try:
-    transform = ET.XSLT(xslt)
-    html = transform(xml)
-except Exception as e:
-    print(f"Error during transformation: {e}")
-    exit(1)
+transform = ET.XSLT(xslt)
+html = transform(xml)
 
 # Convert HTML to string
 html_str = ET.tostring(html, pretty_print=True, method='html').decode('utf-8')
@@ -49,25 +45,16 @@ print(f'HTML file generated: {html_output_file}')
 # Function to update README.md with the latest URL
 def update_readme(readme_file, new_url):
     if not os.path.exists(readme_file):
-        print(f"Error: README.md file not found at {readme_file}")
+        print(f"Error: README.md not found at {readme_file}")
         return
-
     with open(readme_file, 'r') as f:
         content = f.read()
-
     marker = "[Latest Trailers URL]"
     url_pattern = f"You can view the trailers [here]({new_url})."
-
     content = re.sub(rf'{re.escape(marker)}\s*[\s\S]*?(?=\n\S|$)', '', content).rstrip()
-
     if not content.endswith('\n\n'):
         content += '\n\n'
-
     content += f"{marker}\n{url_pattern}\n"
-
     with open(readme_file, 'w') as f:
         f.write(content)
-    print(f'Full URL appended to README.md: {new_url}')
-
-# Update README.md with the new URL
 update_readme(readme_file, full_url)
