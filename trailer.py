@@ -18,28 +18,28 @@ except FileNotFoundError:
 
 # Create XML structure
 view_element = xml_tree.Element('view')
-trailer_element = xml_tree.SubElement(view_element, 'trailers')
+trailers_element = xml_tree.SubElement(view_element, 'trailers')
 
 link_prefix = yaml_data['link']
-xml_tree.SubElement(trailer_element, 'title').text = yaml_data['title']
-xml_tree.SubElement(trailer_element, 'author').text = yaml_data['author']
-xml_tree.SubElement(trailer_element, 'description').text = yaml_data['description']
-xml_tree.SubElement(trailer_element, 'image', {'href': link_prefix + yaml_data['image']})
-xml_tree.SubElement(trailer_element, 'language').text = yaml_data['language']
-xml_tree.SubElement(trailer_element, 'format').text = yaml_data['format']
-xml_tree.SubElement(trailer_element, 'link').text = link_prefix
-xml_tree.SubElement(trailer_element, 'category', {'text': yaml_data['category']})
+xml_tree.SubElement(trailers_element, 'title').text = yaml_data['title']
+xml_tree.SubElement(trailers_element, 'author').text = yaml_data['author']
+xml_tree.SubElement(trailers_element, 'description').text = yaml_data['description']
+xml_tree.SubElement(trailers_element, 'image', {'href': link_prefix + yaml_data['image']})
+xml_tree.SubElement(trailers_element, 'language').text = yaml_data['language']
+xml_tree.SubElement(trailers_element, 'format').text = yaml_data['format']
+xml_tree.SubElement(trailers_element, 'link').text = link_prefix
+xml_tree.SubElement(trailers_element, 'category', {'text': yaml_data['category']})
 
 for item in yaml_data['item']:
-    item_element = xml_tree.SubElement(trailer_element, 'item')
+    item_element = xml_tree.SubElement(trailers_element, 'item')
     xml_tree.SubElement(item_element, 'title').text = item['title']
     xml_tree.SubElement(item_element, 'description').text = item['description']
     xml_tree.SubElement(item_element, 'released').text = item['released']
     xml_tree.SubElement(item_element, 'duration').text = item['duration']
     enclosure = xml_tree.SubElement(item_element, 'enclosure', {
         'url': link_prefix + item['file'],
-        'type': 'video/mp4',
-        'size': item['size']
+        'type': yaml_data['format'],
+        'size': str(item['size'])
     })
 
 # Write XML to file
