@@ -10,59 +10,35 @@ git config --global --add safe.directory /github/workspace
 # Ensure the latest files from the repository
 echo "Cloning repository to fetch the latest trailer.yaml..."
 rm -rf /tmp/trailer-viewer
-git clone "https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/trailer-viewer.git" /tmp/trailer-viewer
+git clone https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/trailer-viewer.git /tmp/trailer-viewer
 
-# Debug: Check if files are cloned properly
-echo "Debug: Checking /tmp/trailer-viewer contents:"
-ls -l /tmp/trailer-viewer/
+# Copy updated files from /tmp to the working directory
+echo "Copying trailer.yaml..."
+cp /tmp/trailer-viewer/trailer.yaml /usr/bin/trailer.yaml
+echo "Copying README.md..."
+cp /tmp/trailer-viewer/README.md /usr/bin/README.md
 
-# Ensure files exist before copying
-if [ -f /tmp/trailer-viewer/trailer.yaml ]; then
-    echo "Copying trailer.yaml..."
-    cp /tmp/trailer-viewer/trailer.yaml /usr/bin/trailer.yaml
-else
-    echo "Error: trailer.yaml not found in /tmp/trailer-viewer."
-    exit 1
-fi
-
-if [ -f /tmp/trailer-viewer/README.md ]; then
-    echo "Copying README.md..."
-    cp /tmp/trailer-viewer/README.md /usr/bin/README.md
-else
-    echo "Error: README.md not found in /tmp/trailer-viewer."
-    exit 1
-fi
+# Debug: Check the contents of the copied trailer.yaml
+echo "Debug: Checking contents of /usr/bin/trailer.yaml"
+cat /usr/bin/trailer.yaml
 
 echo "Running trailer.py..."
 python3 /usr/bin/trailer.py
 
-# Debug: Check if trailer.xml is generated
-if [ -f /usr/bin/trailer.xml ]; then
-    echo "trailer.xml found."
-else
-    echo "Error: trailer.xml not found."
-    exit 1
-fi
+echo "Debug: Checking /usr/bin for trailer.xml:"
+ls -l /usr/bin/trailer.xml
+cat /usr/bin/trailer.xml
 
 echo "Running xsltransformer.py..."
 python3 /usr/bin/xsltransformer.py
 
-# Debug: Check if trailer.html is generated
-if [ -f /usr/bin/trailer.html ]; then
-    echo "trailer.html found."
-else
-    echo "Error: trailer.html not found."
-    exit 1
-fi
+echo "Debug: Checking /usr/bin for trailer.html:"
+ls -l /usr/bin/trailer.html
+cat /usr/bin/trailer.html
 
 # Commit and push changes
-echo "Committing and pushing changes..."
-cd /tmp/trailer-viewer
-cp /usr/bin/trailer.html /tmp/trailer-viewer/
-cp /usr/bin/README.md /tmp/trailer-viewer/
-
-git add trailer.html README.md
+git add -A
 git commit -m "Update View"
-git push origin main
+git push --set-upstream origin main
 
 echo "==================="

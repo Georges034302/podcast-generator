@@ -1,21 +1,20 @@
 import yaml
 import xml.etree.ElementTree as xml_tree
-import os
 
 # Path to YAML file
 yaml_file = '/usr/bin/trailer.yaml'
+
 # Path to output XML file
 xml_file = '/usr/bin/trailer.xml'
 
-# Check if YAML file exists
-if not os.path.exists(yaml_file):
+# Load YAML data
+try:
+    with open(yaml_file, 'r') as file:
+        yaml_data = yaml.safe_load(file)
+        print("Loaded YAML data:", yaml_data)
+except FileNotFoundError:
     print(f"Error: YAML file not found at {yaml_file}")
     exit(1)
-
-# Load YAML data
-with open(yaml_file, 'r') as file:
-    yaml_data = yaml.safe_load(file)
-    print("Loaded YAML data:", yaml_data)
 
 # Create XML structure
 view_element = xml_tree.Element('view')
@@ -47,3 +46,7 @@ for item in yaml_data['item']:
 output_tree = xml_tree.ElementTree(view_element)
 output_tree.write(xml_file, encoding='UTF-8', xml_declaration=True)
 print(f'XML file generated: {xml_file}')
+
+# Debug: Print the generated XML content
+with open(xml_file, 'r') as f:
+    print(f"Generated XML content:\n{f.read()}")
