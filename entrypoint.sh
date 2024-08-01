@@ -2,8 +2,10 @@
 
 echo "==================="
 
-# Clone the repository if not already cloned
+# Directory for the repository
 REPO_DIR="/tmp/trailer-viewer"
+
+# Clone the repository if not already cloned
 if [ ! -d "$REPO_DIR" ]; then
     echo "Cloning repository to fetch XML file..."
     git clone https://github.com/Georges034302/trailer-viewer.git $REPO_DIR
@@ -11,9 +13,10 @@ else
     echo "Repository already cloned."
 fi
 
-# Ensure the XML file exists
+# Check if the XML file exists
 if [ ! -f "$REPO_DIR/trailer.xml" ]; then
     echo "XML file not found in the cloned repository. Exiting."
+    ls -l $REPO_DIR # List files to debug
     exit 1
 fi
 
