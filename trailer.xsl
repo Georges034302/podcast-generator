@@ -53,6 +53,21 @@
                         background-color: #f4f4f4;
                         color: #333;
                     }
+                    .description-column {
+                        width: 45%; 
+                    }
+                    .title-column {
+                        width: 15%;
+                    }
+                    .released-column {
+                        width: 15%;
+                    }
+                    .duration-column {
+                        width: 15%;
+                    }
+                    .video-column {
+                        width: 20%;
+                    }
                     td a {
                         color: #0073e6;
                         text-decoration: none;
@@ -77,21 +92,21 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Released</th>
-                                <th>Duration</th>
-                                <th>Video</th>
+                                <th class="title-column">Title</th>
+                                <th class="description-column">Description</th>
+                                <th class="released-column">Released</th>
+                                <th class="duration-column">Duration</th>
+                                <th class="video-column">Video</th>
                             </tr>
                         </thead>
                         <tbody>
                             <xsl:for-each select="view/trailers/item">
                                 <tr>
-                                    <td><xsl:value-of select="title"/></td>
-                                    <td><xsl:value-of select="description"/></td>
-                                    <td><xsl:value-of select="released"/></td>
-                                    <td><xsl:value-of select="duration"/></td>
-                                    <td><a href="{enclosure/@url}">Watch Trailer</a></td>
+                                    <td class="title-column"><xsl:value-of select="title"/></td>
+                                    <td class="description-column"><xsl:value-of select="description"/></td>
+                                    <td class="released-column"><xsl:value-of select="released"/></td>
+                                    <td class="duration-column"><xsl:value-of select="duration"/></td>
+                                    <td class="video-column"><a href="{enclosure/@url}" target="_blank">Watch Trailer</a></td>
                                 </tr>
                             </xsl:for-each>
                         </tbody>
