@@ -8,7 +8,11 @@ COPY trailer.py /usr/bin/trailer.py
 
 COPY xsltransformer.py /usr/bin/xsltransformer.py
 
+COPY trailer.xsl /usr/bin/trailer.xsl
+
 COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /usr/bin/trailer.py /usr/bin/xsltransformer.py /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 

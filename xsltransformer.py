@@ -3,7 +3,7 @@ import re
 
 # Load the XML file
 xml_file = 'trailer.xml'
-xslt_file = 'trailer.xsl'
+xslt_file = '/usr/bin/trailer.xsl'
 html_output_file = 'trailer.html'
 readme_file = 'README.md'
 
