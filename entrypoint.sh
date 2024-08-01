@@ -2,30 +2,35 @@
 
 echo "==================="
 
-# Clone the repository
-git clone https://x-access-token:${GITHUB_TOKEN}@github.com/Georges034302/trailer-viewer.git /tmp/trailer-viewer
-
-# Run the trailer.py script to generate trailer.xml
-python3 /usr/bin/trailer.py
-
-# Run the xsltransformer.py script to generate trailer.html and update README.md
-python3 /usr/bin/xsltransformer.py
-
-# Move the updated files to the repository
-# No need to use mv if the paths are correct in xsltransformer.py
-# If needed, use cp to copy files instead
-cp /tmp/trailer-viewer/trailer.html /tmp/trailer-viewer/trailer.html
-cp /tmp/trailer-viewer/README.md /tmp/trailer-viewer/README.md
-
-# Configure Git
+# Setup Git configuration
 git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${INPUT_EMAIL}"
-git config --global --add safe.directory /tmp/trailer-viewer
+git config --global --add safe.directory /github/workspace
+
+# Ensure the latest files from the repository
+echo "Cloning repository to fetch the latest trailer.yaml..."
+rm -rf /tmp/trailer-viewer
+git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Georges034302/trailer-viewer.git /tmp/trailer-viewer
+
+# Copy updated files from /tmp to the working directory
+echo "Copying updated files..."
+cp /tmp/trailer-viewer/trailer.yaml /usr/bin/trailer.yaml
+cp /tmp/trailer-viewer/README.md /usr/bin/README.md
+
+echo "Running trailer.py..."
+python3 /usr/bin/trailer.py
+
+echo "Running xsltransformer.py..."
+python3 /usr/bin/xsltransformer.py
+
+# Debug statements
+echo "Checking files..."
+ls -l /tmp/trailer-viewer/
+ls -l /usr/bin/
 
 # Commit and push changes
-cd /tmp/trailer-viewer
 git add -A
-git commit -m "Update trailer HTML and README.md"
-git push
+git commit -m "Update View"
+git push --set-upstream origin main
 
 echo "==================="
