@@ -49,4 +49,5 @@ print(f'XML file generated: {xml_file}')
 
 # Debug: Print the generated XML content
 with open(xml_file, 'r') as f:
-    print(f"Generated XML content:\n{f.read()}")
+    xml_content = f.read()
+    print(f"Generated XML content:\n{xml_content}")
