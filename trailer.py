@@ -1,15 +1,21 @@
 import yaml
 import xml.etree.ElementTree as xml_tree
 
+# Path to YAML file
+yaml_file = '/usr/bin/trailer.yaml'
+
+# Path to output XML file
+xml_file = '/usr/bin/trailer.xml'
+
 # Load YAML data
-with open('trailer.yaml', 'r') as file:
+with open(yaml_file, 'r') as file:
     yaml_data = yaml.safe_load(file)
+    print("Loaded YAML data:", yaml_data)
 
 # Create XML structure
 view_element = xml_tree.Element('view')
 trailer_element = xml_tree.SubElement(view_element, 'trailers')
 
-# Populate XML with YAML data
 link_prefix = yaml_data['link']
 xml_tree.SubElement(trailer_element, 'title').text = yaml_data['title']
 xml_tree.SubElement(trailer_element, 'author').text = yaml_data['author']
@@ -26,7 +32,7 @@ for item in yaml_data['item']:
     xml_tree.SubElement(item_element, 'description').text = item['description']
     xml_tree.SubElement(item_element, 'released').text = item['released']
     xml_tree.SubElement(item_element, 'duration').text = item['duration']
-    xml_tree.SubElement(item_element, 'enclosure', {
+    enclosure = xml_tree.SubElement(item_element, 'enclosure', {
         'url': link_prefix + item['file'],
         'type': 'video/mp4',
         'size': item['size']
@@ -34,4 +40,5 @@ for item in yaml_data['item']:
 
 # Write XML to file
 output_tree = xml_tree.ElementTree(view_element)
-output_tree.write('trailer.xml', encoding='UTF-8', xml_declaration=True)
+output_tree.write(xml_file, encoding='UTF-8', xml_declaration=True)
+print(f'XML file generated: {xml_file}')
