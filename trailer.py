@@ -1,11 +1,17 @@
 import yaml
 import xml.etree.ElementTree as xml_tree
+import os
 
 # Path to YAML file
 yaml_file = '/usr/bin/trailer.yaml'
 
 # Path to output XML file
 xml_file = '/usr/bin/trailer.xml'
+
+# Check if YAML file exists
+if not os.path.exists(yaml_file):
+    print(f"Error: YAML file not found at {yaml_file}")
+    exit(1)
 
 # Load YAML data
 with open(yaml_file, 'r') as file:

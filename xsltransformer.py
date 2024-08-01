@@ -19,12 +19,20 @@ if not os.path.exists(xslt_file):
     exit(1)
 
 # Parse XML and XSLT files
-xml = ET.parse(xml_file)
-xslt = ET.parse(xslt_file)
+try:
+    xml = ET.parse(xml_file)
+    xslt = ET.parse(xslt_file)
+except ET.XMLSyntaxError as e:
+    print(f"Error parsing XML or XSLT: {e}")
+    exit(1)
 
 # Transform XML using XSLT
-transform = ET.XSLT(xslt)
-html = transform(xml)
+try:
+    transform = ET.XSLT(xslt)
+    html = transform(xml)
+except Exception as e:
+    print(f"Error during transformation: {e}")
+    exit(1)
 
 # Convert HTML to string
 html_str = ET.tostring(html, pretty_print=True, method='html').decode('utf-8')
@@ -36,37 +44,30 @@ html_str = html_str.replace('<a href="{view/trailers/link}">Visit Trailer Viewer
 # Write the HTML content to a file
 with open(html_output_file, 'w') as f:
     f.write(html_str)
+print(f'HTML file generated: {html_output_file}')
 
 # Function to update README.md with the latest URL
 def update_readme(readme_file, new_url):
     if not os.path.exists(readme_file):
         print(f"Error: README.md file not found at {readme_file}")
         return
-    
-    # Read the existing README.md
+
     with open(readme_file, 'r') as f:
         content = f.read()
 
-    # Define the marker and URL pattern
     marker = "[Latest Trailers URL]"
     url_pattern = f"You can view the trailers [here]({new_url})."
 
-    # Remove any existing URL entries and marker
     content = re.sub(rf'{re.escape(marker)}\s*[\s\S]*?(?=\n\S|$)', '', content).rstrip()
 
-    # Ensure there's exactly one blank line before the URL
     if not content.endswith('\n\n'):
         content += '\n\n'
 
-    # Append the new URL and marker
     content += f"{marker}\n{url_pattern}\n"
 
-    # Write the updated content back to README.md
     with open(readme_file, 'w') as f:
         f.write(content)
+    print(f'Full URL appended to README.md: {new_url}')
 
 # Update README.md with the new URL
 update_readme(readme_file, full_url)
-
-print(f'HTML file generated: {html_output_file}')
-print(f'Full URL appended to README.md: {full_url}')
